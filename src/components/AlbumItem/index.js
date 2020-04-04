@@ -22,7 +22,7 @@ const AlbumItem = props => {
         <LinearGradient
           colors={["transparent", "rgba(0, 0, 0, 1)"]}
           style={{
-            height: 14,
+            height: 28,
             position: "absolute", // child
             bottom: 0, // position where you want,
             right: 0,
