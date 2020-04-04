@@ -1,17 +1,16 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+const dim = Dimensions.get("window");
 export default StyleSheet.create({
   base: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 20,
-    paddingHorizontal: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: "#626262"
+    paddingVertical: 2,
+    paddingHorizontal: 2
   },
   thumb: {
-    width: 150,
-    height: 150,
+    width: dim.width / 2.03,
+    height: 180,
     resizeMode: "cover",
     borderRadius: 8,
     position: "relative"
@@ -43,7 +42,8 @@ export default StyleSheet.create({
     bottom: 0, // position where you want
     left: 0,
     color: "#fff",
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    marginLeft: 3
   },
   counter: {
     fontSize: 12,
@@ -53,7 +53,8 @@ export default StyleSheet.create({
     bottom: 0, // position where you want
     right: 0,
     color: "#fff",
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    marginRight: 3
   },
   first: {
     borderTopWidth: 1,

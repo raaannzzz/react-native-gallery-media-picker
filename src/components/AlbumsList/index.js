@@ -22,7 +22,7 @@ const AlbumsList = props => {
 
   return (
     <FlatList
-      style={{ flex: 1, backgroundColor: "white" }}
+      style={{ flex: 1, backgroundColor: "black" }}
       data={albums}
       renderItem={({ item, index }) => renderThisItems(item, index)}
       keyExtractor={({ item, index }) => index}
