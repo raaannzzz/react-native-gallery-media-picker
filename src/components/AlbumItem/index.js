@@ -16,7 +16,7 @@ const AlbumItem = props => {
   return (
     <TouchableOpacity
       style={[styles.base, index === 0 && styles.first]}
-      onPress={() => this.props.onAlbumPress(albumName)}
+      onPress={() => props.onAlbumPress(albumName)}
     >
       <ImageBackground source={{ uri: thumbnail }} style={styles.thumb}>
         <LinearGradient
