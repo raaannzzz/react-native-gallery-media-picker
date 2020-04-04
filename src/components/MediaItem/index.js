@@ -1,53 +1,60 @@
-import React, { Component } from 'react';
-import RNThumbnail from 'react-native-thumbnail-a25av';
-import { Image, View, Dimensions, TouchableOpacity, Platform } from 'react-native';
+import React, { Component } from "react";
+import RNThumbnail from "react-native-thumbnail";
+import {
+  Image,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  Platform
+} from "react-native";
 
-const checkedIcon  = require("../../assets/images/check-mark.png");
-import styles from './styles'
+const checkedIcon = require("../../assets/images/check-mark.png");
+import styles from "./styles";
 
 class MediaItem extends Component {
-  constructor( props ) {
-    super( props );
+  constructor(props) {
+    super(props);
     this.state = {
-      item:     {},
+      item: {},
       selected: false,
       imageSize: 0,
-      thumbnailPath: 'dummy'
+      thumbnailPath: "dummy"
     };
 
     this.generateThumbnail = this.generateThumbnail.bind(this);
   }
 
-  componentDidMount () {
-    let { width } = Dimensions.get( 'window' );
+  componentDidMount() {
+    let { width } = Dimensions.get("window");
     let { imageMargin, itemsPerRow, containerWidth } = this.props;
 
-    if ( typeof containerWidth !== "undefined" ) {
+    if (typeof containerWidth !== "undefined") {
       width = containerWidth;
     }
-    this.setState({imageSize: (width - (itemsPerRow + 1) * imageMargin) / itemsPerRow})
+    this.setState({
+      imageSize: (width - (itemsPerRow + 1) * imageMargin) / itemsPerRow
+    });
 
-    if (this.state.thumbnailPath === 'dummy') {
+    if (this.state.thumbnailPath === "dummy") {
       this.generateThumbnail();
     }
   }
 
-  generateThumbnail () {
+  generateThumbnail() {
     let thumbnailPath = this.props.item.image.uri;
 
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === "ios") {
       this.setState({
         thumbnailPath
       });
-    } else if (Platform.OS === 'android') {
-      RNThumbnail
-        .get(thumbnailPath)
-        .then((result) => {
+    } else if (Platform.OS === "android") {
+      RNThumbnail.get(thumbnailPath)
+        .then(result => {
           this.setState({
             thumbnailPath: result.path
           });
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     }
@@ -57,7 +64,7 @@ class MediaItem extends Component {
    * @description Trigger when file is pressed
    * @param item
    */
-  onFilePress (item) {
+  onFilePress(item) {
     this.props.onClick(item);
   }
 
@@ -66,11 +73,11 @@ class MediaItem extends Component {
    * @param markIcon
    * @return {XML}
    */
-  renderMarker (markIcon) {
+  renderMarker(markIcon) {
     return (
-      <Image style={styles.marker} source={markIcon ? markIcon : checkedIcon}/>
-    )
-  };
+      <Image style={styles.marker} source={markIcon ? markIcon : checkedIcon} />
+    );
+  }
 
   render() {
     let {
@@ -81,20 +88,27 @@ class MediaItem extends Component {
       markIcon
     } = this.props;
 
-    let marker = customSelectMarker ? customSelectMarker : this.renderMarker(markIcon);
+    let marker = customSelectMarker
+      ? customSelectMarker
+      : this.renderMarker(markIcon);
 
     return (
       <TouchableOpacity
         style={{ marginBottom: imageMargin, marginRight: imageMargin }}
-        onPress={() => this.onFilePress( item )}>
+        onPress={() => this.onFilePress(item)}
+      >
         <Image
           source={{ uri: this.state.thumbnailPath }}
-          style={{ height: this.state.imageSize, width: this.state.imageSize, backgroundColor: '#000000' }}/>
+          style={{
+            height: this.state.imageSize,
+            width: this.state.imageSize,
+            backgroundColor: "#000000"
+          }}
+        />
         {selected && marker}
-        {selected && <View style={styles.overlay}/>}
+        {selected && <View style={styles.overlay} />}
       </TouchableOpacity>
     );
   }
-
 }
 export default MediaItem;
