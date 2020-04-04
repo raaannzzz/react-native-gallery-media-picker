@@ -18,11 +18,21 @@ export default StyleSheet.create({
   },
   textWrapper: {
     flexDirection: "row",
-    alignSelf: "flex-end",
+
     position: "absolute", // child
     bottom: 0, // position where you want,
     right: 0,
-    left: 0
+    left: 0,
+    shadowColor: "#000",
+    height: 15,
+    shadowOffset: {
+      width: 40,
+      height: 40
+    },
+    shadowOpacity: 40,
+    shadowRadius: 20,
+    // shadow props for android
+    elevation: 40
   },
   name: {
     fontSize: 12,
@@ -33,7 +43,7 @@ export default StyleSheet.create({
     bottom: 0, // position where you want
     left: 0,
     color: "#fff",
-    backgroundColor: "#90000000"
+    backgroundColor: "transparent"
   },
   counter: {
     fontSize: 12,
@@ -42,7 +52,8 @@ export default StyleSheet.create({
     position: "absolute", // child
     bottom: 0, // position where you want
     right: 0,
-    color: "#fff"
+    color: "#fff",
+    backgroundColor: "transparent"
   },
   first: {
     borderTopWidth: 1,
