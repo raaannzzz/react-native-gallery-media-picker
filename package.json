@@ -17,7 +17,7 @@
   "peerDependencies": {
     "react": "^16.3.0-alpha.1",
     "react-native": "0.54.3",
-    "react-native-thumbnail-a25av": "^1.2.0",
+    "react-native-thumbnail": "^1.1.3",
     "lodash": "^4.17.11"
   },
   "author": "Andrei Rat",
@@ -36,6 +36,6 @@
   "dependencies": {
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
-    "react-native-thumbnail-a25av": "^1.2.0"
+    "react-native-thumbnail": "^1.1.3"
   }
 }
