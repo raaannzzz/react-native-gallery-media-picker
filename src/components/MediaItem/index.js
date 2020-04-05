@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import RNThumbnail from "react-native-thumbnail";
+import RNThumbnail from "react-native-thumbnail-a25av";
 import {
   Image,
   View,
