@@ -101,8 +101,7 @@ class MediaItem extends Component {
           source={{ uri: this.state.thumbnailPath }}
           style={{
             height: this.state.imageSize,
-            width: this.state.imageSize,
-            backgroundColor: "#fff"
+            width: this.state.imageSize
           }}
         />
         {selected && marker}
