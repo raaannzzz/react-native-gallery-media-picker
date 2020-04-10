@@ -56,7 +56,7 @@ const GalleryMediaPicker = props => {
     const { groupTypes, assetType, firstLimit } = props;
 
     const fetchParams = {
-      first: firstLimit !== undefined ? firstLimit : 2000,
+      first: firstLimit !== undefined ? firstLimit : 1000,
       groupTypes: groupTypes,
       assetType: assetType
     };
@@ -179,6 +179,7 @@ const GalleryMediaPicker = props => {
         <AlbumsList
           albums={albums}
           onAlbumPress={albumName => selectAlbum(albumName)}
+          headerName={props.payload.username}
         />
       );
     } else {
@@ -198,6 +199,7 @@ const GalleryMediaPicker = props => {
           maximumSelectedFiles={
             props.maximumSelectedFiles || maximumSelectedFiles
           }
+          headerName={props.payload.username}
         />
       );
     }

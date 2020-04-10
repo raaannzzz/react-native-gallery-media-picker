@@ -12,6 +12,7 @@ import moment from "moment";
 import MediaItem from "../MediaItem";
 import styles from "./styles";
 import { existsInArray, placeInTime } from "../../utils";
+import Header from "../../Header";
 
 const arrow = require("../../assets/images/next-arrow.png");
 
@@ -295,9 +296,16 @@ class MediaList extends Component {
     );
   }
 
+  onBack() {}
+
   renderList() {
     return (
-      <View style={{ flex: 14 }}>
+      <View style={{ flex: 14, backgroundColor: "#000" }}>
+        <Header
+          title={`Send to ${this.props.headerName}`}
+          onBack={this.backToAlbums.bind(this)}
+          backCaption=""
+        />
         <FlatList
           ListFooterComponent={this.renderFooterLoader.bind(this)}
           initialNumToRender={this.props.batchSize}
@@ -308,7 +316,7 @@ class MediaList extends Component {
           }
           data={this.state.rows}
           extraData={this.props.selected}
-          style={{ backgroundColor: "#000" }}
+          style={{ backgroundColor: "#000", marginTop: -5 }}
         />
       </View>
     );
@@ -321,7 +329,7 @@ class MediaList extends Component {
           flex: 1
         }}
       >
-        {this.renderBackToAlbumsButton()}
+        {/* {this.renderBackToAlbumsButton()} */}
         {this.renderList()}
       </View>
     );

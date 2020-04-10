@@ -1,5 +1,6 @@
 import React, { Component, useState } from "react";
-import { ScrollView, FlatList } from "react-native";
+import { ScrollView, FlatList, View } from "react-native";
+import Header from "../../Header";
 
 import AlbumItem from "../AlbumItem";
 import styles from "./styles";
@@ -20,14 +21,23 @@ const AlbumsList = props => {
     );
   };
 
+  const onBack = () => {};
+
   return (
-    <FlatList
-      style={{ flex: 1, backgroundColor: "black" }}
-      data={albums}
-      renderItem={({ item, index }) => renderThisItems(item, index)}
-      keyExtractor={({ item, index }) => index}
-      numColumns={2}
-    />
+    <View style={{ flex: 1, backgroundColor: "#000" }}>
+      <Header
+        title={`Send to ${props.headerName}`}
+        onBack={onBack}
+        backCaption=""
+      />
+      <FlatList
+        style={{ flex: 1, backgroundColor: "black", marginTop: -5 }}
+        data={albums}
+        renderItem={({ item, index }) => renderThisItems(item, index)}
+        keyExtractor={({ item, index }) => index}
+        numColumns={2}
+      />
+    </View>
   );
 };
 
