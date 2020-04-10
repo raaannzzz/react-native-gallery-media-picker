@@ -102,7 +102,7 @@ class MediaItem extends Component {
           style={{
             height: this.state.imageSize,
             width: this.state.imageSize,
-            backgroundColor: "#000000"
+            backgroundColor: "#fff"
           }}
         />
         {selected && marker}
