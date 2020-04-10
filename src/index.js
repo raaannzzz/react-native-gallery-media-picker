@@ -56,7 +56,7 @@ const GalleryMediaPicker = props => {
     const { groupTypes, assetType, firstLimit } = props;
 
     const fetchParams = {
-      first: firstLimit !== undefined ? firstLimit : 1000,
+      first: firstLimit !== undefined ? firstLimit : 2000,
       groupTypes: groupTypes,
       assetType: assetType
     };
