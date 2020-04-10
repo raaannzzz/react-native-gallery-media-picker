@@ -297,7 +297,7 @@ class MediaList extends Component {
 
   renderList() {
     return (
-      <View style={{ flex: 14, backgroundColor: "#000" }}>
+      <View style={{ flex: 14 }}>
         <FlatList
           ListFooterComponent={this.renderFooterLoader.bind(this)}
           initialNumToRender={this.props.batchSize}
@@ -308,6 +308,7 @@ class MediaList extends Component {
           }
           data={this.state.rows}
           extraData={this.props.selected}
+          style={{ backgroundColor: "#000" }}
         />
       </View>
     );
