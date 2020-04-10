@@ -1,26 +1,33 @@
-import React, { Component } from 'react';
-import { FlatList, ActivityIndicator, View, TouchableOpacity, Text, Image } from 'react-native';
-import _ from 'lodash';
-import moment from 'moment';
-import MediaItem from '../MediaItem';
-import styles from './styles';
-import { existsInArray, placeInTime } from '../../utils';
+import React, { Component } from "react";
+import {
+  FlatList,
+  ActivityIndicator,
+  View,
+  TouchableOpacity,
+  Text,
+  Image
+} from "react-native";
+import _ from "lodash";
+import moment from "moment";
+import MediaItem from "../MediaItem";
+import styles from "./styles";
+import { existsInArray, placeInTime } from "../../utils";
 
-const arrow = require('../../assets/images/next-arrow.png');
+const arrow = require("../../assets/images/next-arrow.png");
 
 class MediaList extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.state = {
       finishedLoading: false,
       rows: [],
       rowsSorted: {},
-      selected: [],
+      selected: []
     };
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.setState({
       rows: this.splitIntoRows(this.props.images, this.props.itemsPerRow)
     });
@@ -32,11 +39,11 @@ class MediaList extends Component {
    * @param itemsPerRow
    * @return {Array}
    */
-  splitIntoRows (images, itemsPerRow) {
+  splitIntoRows(images, itemsPerRow) {
     let result = {};
     let temp = {};
 
-    for ( let i = 0; i < images.length; ++ i ) {
+    for (let i = 0; i < images.length; ++i) {
       const timestampOfImage = images[i].timestamp * 1000;
       const placeInTimeOfImage = placeInTime(timestampOfImage);
 
@@ -46,7 +53,10 @@ class MediaList extends Component {
 
       temp[placeInTimeOfImage].push(images[i]);
 
-      if (temp[placeInTimeOfImage].length > 0 && temp[placeInTimeOfImage].length % itemsPerRow === 0) {
+      if (
+        temp[placeInTimeOfImage].length > 0 &&
+        temp[placeInTimeOfImage].length % itemsPerRow === 0
+      ) {
         if (result[placeInTimeOfImage] === undefined) {
           result[placeInTimeOfImage] = [];
         }
@@ -69,7 +79,7 @@ class MediaList extends Component {
     }
 
     let final = [];
-    let order = ['today', 'week', 'month'];
+    let order = ["today", "week", "month"];
     let allTimeTags = Object.keys(result).map(prop => {
       if (Number.isInteger(parseInt(prop))) {
         return parseInt(prop);
@@ -78,9 +88,13 @@ class MediaList extends Component {
       return prop;
     });
 
-    let allMonths = allTimeTags.filter(prop => Number.isInteger(prop) && prop < 12);
+    let allMonths = allTimeTags.filter(
+      prop => Number.isInteger(prop) && prop < 12
+    );
     allMonths = _.reverse(_.sortBy(allMonths));
-    let allYears = allTimeTags.filter(prop => Number.isInteger(prop) && !allMonths.includes(prop));
+    let allYears = allTimeTags.filter(
+      prop => Number.isInteger(prop) && !allMonths.includes(prop)
+    );
     allYears = _.reverse(_.sortBy(allYears));
 
     order = _.concat(order, allMonths, allYears);
@@ -98,7 +112,7 @@ class MediaList extends Component {
     return final;
   }
 
-  onEndReached () {
+  onEndReached() {
     if (!this.state.finishedLoading) {
       this.setState({
         finishedLoading: true
@@ -111,28 +125,33 @@ class MediaList extends Component {
    * @param item
    */
   selectMediaFile(item) {
-    let { maximumSelectedFiles, itemsPerRow, callback, selectSingleItem } = this.props;
+    let {
+      maximumSelectedFiles,
+      itemsPerRow,
+      callback,
+      selectSingleItem
+    } = this.props;
     let selected = this.state.selected,
-      index = existsInArray( selected, 'image', 'uri', item.image.uri );
+      index = existsInArray(selected, "image", "uri", item.image.uri);
 
-    if ( index >= 0 ) {
-      selected.splice( index, 1 );
+    if (index >= 0) {
+      selected.splice(index, 1);
     } else {
-      if ( selectSingleItem ) {
-        selected.splice( 0, selected.length );
+      if (selectSingleItem) {
+        selected.splice(0, selected.length);
       }
-      if ( selected.length < maximumSelectedFiles ) {
-        selected.push( item );
+      if (selected.length < maximumSelectedFiles) {
+        selected.push(item);
       }
     }
-    this.setState( {
-      selected:   selected,
-    } );
+    this.setState({
+      selected: selected
+    });
 
     callback(selected, item);
   }
 
-  backToAlbums () {
+  backToAlbums() {
     this.setState({
       selected: []
     });
@@ -145,7 +164,7 @@ class MediaList extends Component {
    * @param item
    * @return {XML}
    */
-  renderMediaItem( item, index ) {
+  renderMediaItem(item, index) {
     let {
       selected,
       imageMargin,
@@ -156,7 +175,7 @@ class MediaList extends Component {
     } = this.props;
 
     let uri = item.image.uri;
-    let isSelected = (existsInArray(selected, 'image', 'uri', uri) >= 0);
+    let isSelected = existsInArray(selected, "image", "uri", uri) >= 0;
 
     return (
       <MediaItem
@@ -173,7 +192,7 @@ class MediaList extends Component {
     );
   }
 
-  renderRowHeader (rowData) {
+  renderRowHeader(rowData) {
     let headerTitle = placeInTime(rowData[0].timestamp * 1000);
 
     if (this.state.rowsSorted[headerTitle].indexOf(rowData) > 0) {
@@ -181,32 +200,36 @@ class MediaList extends Component {
     }
 
     if (Number.isInteger(headerTitle) && headerTitle < 12) {
-      headerTitle = moment(headerTitle).format('MMMM');
+      headerTitle = moment(headerTitle).format("MMMM");
     }
 
-    if (headerTitle === 'today') {
-      headerTitle = 'Today';
+    if (headerTitle === "today") {
+      headerTitle = "Today";
     }
 
-    if (headerTitle === 'week') {
-      headerTitle = 'This Week';
+    if (headerTitle === "week") {
+      headerTitle = "This Week";
     }
 
-    if (headerTitle === 'month') {
-      headerTitle = 'This Month'
+    if (headerTitle === "month") {
+      headerTitle = "This Month";
     }
 
     return (
       <View
         style={{
-          alignItems: 'center'
-        }}>
+          alignItems: "center"
+        }}
+      >
         <Text
           style={{
-            textAlign: 'center',
+            textAlign: "center",
             marginVertical: 7,
-            color: '#aaaaaa'
-          }}>{headerTitle}</Text>
+            color: "#aaaaaa"
+          }}
+        >
+          {headerTitle}
+        </Text>
       </View>
     );
   }
@@ -216,8 +239,8 @@ class MediaList extends Component {
    * @param rowData
    * @return {XML}
    */
-  renderRow (rowData, index) {
-    let items = rowData.map((item) => {
+  renderRow(rowData, index) {
+    let items = rowData.map(item => {
       if (item === null) {
         return null;
       }
@@ -227,9 +250,7 @@ class MediaList extends Component {
     return (
       <View style={{}}>
         {this.renderRowHeader(rowData)}
-        <View style={styles.row}>
-          {items}
-        </View>
+        <View style={styles.row}>{items}</View>
       </View>
     );
   }
@@ -240,47 +261,51 @@ class MediaList extends Component {
    */
   renderFooterLoader() {
     if (!this.state.finishedLoading) {
-      return <ActivityIndicator color={this.props.activityIndicatorColor}/>;
+      return <ActivityIndicator color={this.props.activityIndicatorColor} />;
     }
     return null;
   }
 
-  renderBackToAlbumsButton () {
+  renderBackToAlbumsButton() {
     return (
-      <View style={{flex: 1, padding: 7}}>
+      <View style={{ flex: 1, padding: 7 }}>
         <TouchableOpacity
           onPress={this.backToAlbums.bind(this)}
           style={{
             flex: 1,
-            backgroundColor: '#cccccc',
+            backgroundColor: "#cccccc",
             borderRadius: 8,
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'row'
-          }}>
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "row"
+          }}
+        >
           <Image
             source={arrow}
             style={{
               height: 20,
               width: 20,
               marginRight: 5,
-              transform: [{rotate: '180deg'}],
-            }} />
+              transform: [{ rotate: "180deg" }]
+            }}
+          />
           <Text>Back to albums</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
-  renderList () {
+  renderList() {
     return (
-      <View style={{flex: 14}}>
+      <View style={{ flex: 14, backgroundColor: "#000" }}>
         <FlatList
           ListFooterComponent={this.renderFooterLoader.bind(this)}
           initialNumToRender={this.props.batchSize}
           onEndReached={this.onEndReached.bind(this)}
-          renderItem={({item, index}) => this.renderRow(item, index)}
-          keyExtractor={(item, index) => item[0].image.uri + item[0].timestamp + index}
+          renderItem={({ item, index }) => this.renderRow(item, index)}
+          keyExtractor={(item, index) =>
+            item[0].image.uri + item[0].timestamp + index
+          }
           data={this.state.rows}
           extraData={this.props.selected}
         />
@@ -288,12 +313,13 @@ class MediaList extends Component {
     );
   }
 
-  render () {
+  render() {
     return (
       <View
         style={{
           flex: 1
-        }}>
+        }}
+      >
         {this.renderBackToAlbumsButton()}
         {this.renderList()}
       </View>
